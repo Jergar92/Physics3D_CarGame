@@ -31,6 +31,14 @@ public:
 	*/
 	PhysBody3D* pb_cube;
 	Cube s_cube;
+	PhysBody3D* pb_cube2;
+	Cube s_cube2;
+	PhysBody3D* pb_cube3;
+	Cube s_cube3;
+
+
+
+
 	PhysBody3D* pb_chassis;
 	Cube p_chassis;
 

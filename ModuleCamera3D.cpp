@@ -68,13 +68,25 @@ update_status ModuleCamera3D::Update(float dt)
 
 	btRigidBody* body = App->player->vehicle->vehicle->getRigidBody();
 	btVector3 t = body->getCenterOfMassPosition();
-	Look({ t.getX(),  t.getY() + 3 , t.getZ() - 10 }, { t.getX(),  t.getY() + 3 , t.getZ() }, true);
+	
+	
+	
+	if (App->physics->GetGravityState())
+	{
+		Look({ t.getX(),  t.getY() + 5 , t.getZ() - 20 }, { t.getX(),  t.getY() + 5 , t.getZ() }, true);
+	}
+	else Look({ t.getX(),  t.getY() - 5 , t.getZ() - 20 }, { t.getX(),  t.getY() - 5 , t.getZ() }, true);
+	
+	
+	
+	
 	
 	btTransform trans = body->getWorldTransform();
 	btQuaternion quat = trans.getRotation();
 
 
 	float angle = (float)quat.getY()*RADTODEG;
+	LOG("ANGLE: %f", angle);
 	Position -= Reference;
 	float DeltaX = angle;
 	X = rotate(X, DeltaX, vec3(0.0f, 1.0f, 0.0f));

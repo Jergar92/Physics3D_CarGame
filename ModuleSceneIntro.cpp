@@ -19,6 +19,20 @@ bool ModuleSceneIntro::Start()
 	s_cube.Scale(100, 5, 100);
 	pb_cube = App->physics->AddBody(s_cube, 0);
 	pb_cube->SetPos(0, 25, 0);
+
+	s_cube2.Scale(100, 5, 100);
+	pb_cube2 = App->physics->AddBody(s_cube2, 0);
+	pb_cube2->SetPos(0, 50, 100);
+
+	s_cube3.Scale(100, 5, 100);
+	pb_cube3 = App->physics->AddBody(s_cube3, 0);
+	pb_cube3->SetPos(0, 25, 200);
+
+
+	pb_cube3->GetTransform(&s_cube3.transform);
+	pb_cube2->GetTransform(&s_cube2.transform);
+	pb_cube->GetTransform(&s_cube.transform);
+
 	App->camera->Move(vec3(1.0f, 1.0f, 0.0f));
 	App->camera->LookAt(vec3(0, 0, 0));
 
@@ -40,8 +54,9 @@ update_status ModuleSceneIntro::Update(float dt)
 	p.axis = true;
 	p.Render();
 
-	pb_cube->GetTransform(&s_cube.transform);
-	s_cube.Render();
+	s_cube.Render();	
+	s_cube2.Render();
+	s_cube3.Render();
 
 	return UPDATE_CONTINUE;
 }
