@@ -73,7 +73,15 @@ bool ModulePhysics3D::Start()
 update_status ModulePhysics3D::PreUpdate(float dt)
 {
 	world->stepSimulation(dt, 15);
-
+	if (currentGravity != gravityChange) {
+		currentGravity = gravityChange;
+		if (currentGravity == true) {
+			world->setGravity(GRAVITY);
+		}
+		else {
+			world->setGravity(-GRAVITY);
+		}
+	}
 	int numManifolds = world->getDispatcher()->getNumManifolds();
 	for(int i = 0; i<numManifolds; i++)
 	{
@@ -359,7 +367,15 @@ void ModulePhysics3D::AddConstraintHinge(PhysBody3D& bodyA, PhysBody3D& bodyB, c
 	constraints.add(hinge);
 	hinge->setDbgDrawSize(2.0f);
 }
+bool ModulePhysics3D::GetGravityState()
+{
+	return currentGravity;
+}
 
+void ModulePhysics3D::ChangeGravity()
+{
+	gravityChange = !gravityChange;
+}
 // =============================================
 void DebugDrawer::drawLine(const btVector3& from, const btVector3& to, const btVector3& color)
 {

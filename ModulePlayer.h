@@ -3,11 +3,19 @@
 #include "Globals.h"
 #include "p2Point.h"
 
+enum CarState
+{
+	BOTTOM,
+	CHANGING,
+	TOP,
+};
 struct PhysVehicle3D;
 
 #define MAX_ACCELERATION 1000.0f
 #define TURN_DEGREES 15.0f * DEGTORAD
 #define BRAKE_POWER 1000.0f
+#define ROTATION_VALUE 4.0f
+#define ROTATION_LIMIT 180.0f
 
 class ModulePlayer : public Module
 {
@@ -20,9 +28,16 @@ public:
 	bool CleanUp();
 
 public:
-
+	void RotateCar();
 	PhysVehicle3D* vehicle;
 	float turn;
 	float acceleration;
 	float brake;
+private:
+	CarState state;
+	float totalRotation;
+	bool gravityChange;
+	bool startRotation;
+	
+	
 };

@@ -88,6 +88,30 @@ void PhysVehicle3D::Turn(float degrees)
 	}
 }
 
+void PhysVehicle3D::RotateVehiche()
+{
+	
+}
+bool PhysVehicle3D::ChangeAxis()
+{
+	bool ret = false;
+	for (int i = 0; i < vehicle->getNumWheels(); ++i)
+	{
+		ret=vehicle->m_wheelInfo[i].m_raycastInfo.m_isInContact;
+
+	}
+	return ret;
+}
+
+void PhysVehicle3D::ChangeDirection()
+{
+	for (int i = 0; i < vehicle->getNumWheels(); ++i)
+	{
+		info.wheels[i].direction = info.wheels[i].direction*-1;
+
+	}
+}
+
 // ----------------------------------------------------------------------------
 float PhysVehicle3D::GetKmh() const
 {

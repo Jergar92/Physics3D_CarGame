@@ -49,6 +49,9 @@ public:
 	void ApplyEngineForce(float force);
 	void Brake(float force);
 	void Turn(float degrees);
+	void RotateVehiche();
+	bool ChangeAxis();
+	void ChangeDirection();
 	float GetKmh() const;
 public:
 
