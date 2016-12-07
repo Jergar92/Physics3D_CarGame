@@ -34,21 +34,19 @@ public:
 	PhysBody3D* pb_snake2[MAX_SNAKE];
 	Sphere s_snake2[MAX_SNAKE];
 	*/
+
 	FLOOR_STYLE floorStyle;
 	p2DynArray<PhysBody3D*> pb_cubes;
 	p2DynArray<Cube>s_cubes;
 
-	PhysBody3D* pb_cube[5];
-	Cube s_cube[5];
-	PhysBody3D* pb_chassis;
-	Cube p_chassis;
 
-	PhysBody3D* pb_wheel;
-	Cylinder p_wheel;
+	PhysBody3D* pb_cube;
+	Cube s_cube;
+	PhysBody3D* pb_cube2;
+	Cube s_cube2;
+	PhysBody3D* pb_cube3;
+	Cube s_cube3;
 
-	PhysBody3D* pb_wheel2;
-	Cylinder p_wheel2;
 
-	PhysMotor3D* left_wheel;
-	PhysMotor3D* right_wheel;
+
 };

@@ -16,6 +16,7 @@ bool ModuleSceneIntro::Start()
 {
 	LOG("Loading Intro assets");
 	bool ret = true;
+<<<<<<< HEAD
 	srand(time(NULL));
 
 	/*CreateFloor(vec3(12, 1, 48), 0, 0, BOTTOM_FLOOR);
@@ -31,6 +32,7 @@ bool ModuleSceneIntro::Start()
 
 		}
 	}
+
 	App->camera->Move(vec3(1.0f, 1.0f, 0.0f));
 	App->camera->LookAt(vec3(0, 0, 0));
 	return ret;
@@ -50,6 +52,7 @@ update_status ModuleSceneIntro::Update(float dt)
 	Plane p(0, 1, 0, 0);
 	p.axis = true;
 	p.Render();
+
 	if (pb_cubes.Count() != 0 && s_cubes.Count() != 0 && s_cubes.Count()== pb_cubes.Count()) {
 		for (int i = 0; i < s_cubes.Count(); i++) {
 			pb_cubes[i]->GetTransform(&s_cubes[i].transform);
@@ -58,6 +61,7 @@ update_status ModuleSceneIntro::Update(float dt)
 		
 	}
 	
+
 	return UPDATE_CONTINUE;
 }
 
