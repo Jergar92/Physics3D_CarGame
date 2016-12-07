@@ -118,8 +118,25 @@ void ModulePlayer::RotateCar()
 	float rotateValue= ROTATION_VALUE;
 	totalRotation += rotateValue;
 	Cube chassis(vehicle->info.chassis_size.x, vehicle->info.chassis_size.y, vehicle->info.chassis_size.z);
+
 	vehicle->vehicle->getChassisWorldTransform().getOpenGLMatrix(&chassis.transform);
-	chassis.SetRotation(totalRotation, vec3(0, 0, 1));
+//	chassis.SetRotation(totalRotation, vec3(0, 0, 1));
+	double xLen = sqrt(chassis.transform.M[0] * chassis.transform.M[0] + chassis.transform.M[1] * chassis.transform.M[1]); // Singularity if either of these
+	double yLen = sqrt(chassis.transform.M[4] * chassis.transform.M[4] + chassis.transform.M[5] * chassis.transform.M[5]); //  is equal to zero.
+	mat4x4 RotationMat;
+	vehicle->GetTransform(RotationMat.M);
+
+	RotationMat.M[3] = RotationMat.M[7] = RotationMat.M[11] = 0;
+	RotationMat.M[14] = 1;
+	RotationMat.M[0] = cos(totalRotation/180*3.14); RotationMat.M[1] = sin(totalRotation / 180 * 3.14); RotationMat.M[2] = 0; // Set the x column
+	RotationMat.M[4] = -sin(totalRotation / 180 * 3.14); RotationMat.M[5] = cos(totalRotation / 180 * 3.14); RotationMat.M[6] = 0; // Set the y column
+	RotationMat.M[8] = 0; chassis.transform.M[9] = 0; RotationMat.M[10] = 1;        // Set the z column
+	//Get rotation matrix
+	//Rotate your first translation vector with the matrix
+	//tranlation = RotationMat*tranlation;
+	chassis.transform.translate(RotationMat.translation().x, RotationMat.translation().y, RotationMat.translation().z);
+	//chassis.transform.rotate(totalRotation, vec3(0, 0, 1));
+	//Update axis variable to apply transform on
 	vehicle->SetTransform(chassis.transform.M);
 }
 

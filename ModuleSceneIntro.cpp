@@ -3,7 +3,7 @@
 #include "ModuleSceneIntro.h"
 #include "Primitive.h"
 #include "PhysBody3D.h"
-
+#include <time.h>  
 ModuleSceneIntro::ModuleSceneIntro(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
 }
@@ -16,12 +16,23 @@ bool ModuleSceneIntro::Start()
 {
 	LOG("Loading Intro assets");
 	bool ret = true;
-	s_cube.Scale(100, 5, 100);
-	pb_cube = App->physics->AddBody(s_cube, 0);
-	pb_cube->SetPos(0, 25, 0);
+	srand(time(NULL));
+
+	/*CreateFloor(vec3(12, 1, 48), 0, 0, BOTTOM_FLOOR);
+	CreateFloor(vec3(12, 1, 48), 12, 0, BOTTOM_FLOOR);
+	CreateFloor(vec3(12, 1, 48), 24, 0, BOTTOM_FLOOR);
+	CreateFloor(vec3(12, 1, 48), 36, 0, BOTTOM_FLOOR);
+	*/
+	for (int j = 0; j < 10; j++) {
+		for (int i = 0; i < 4; i++) {
+			FLOOR_STYLE test = static_cast<FLOOR_STYLE>(rand() % EMPTY_FLOOR);
+
+			CreateFloor(vec3(12, 1, 48), 12*i, 48*j, test);
+
+		}
+	}
 	App->camera->Move(vec3(1.0f, 1.0f, 0.0f));
 	App->camera->LookAt(vec3(0, 0, 0));
-
 	return ret;
 }
 
@@ -39,14 +50,58 @@ update_status ModuleSceneIntro::Update(float dt)
 	Plane p(0, 1, 0, 0);
 	p.axis = true;
 	p.Render();
-
-	pb_cube->GetTransform(&s_cube.transform);
-	s_cube.Render();
-
+	if (pb_cubes.Count() != 0 && s_cubes.Count() != 0 && s_cubes.Count()== pb_cubes.Count()) {
+		for (int i = 0; i < s_cubes.Count(); i++) {
+			pb_cubes[i]->GetTransform(&s_cubes[i].transform);
+			s_cubes[i].Render();
+		}
+		
+	}
+	
 	return UPDATE_CONTINUE;
 }
 
 void ModuleSceneIntro::OnCollision(PhysBody3D* body1, PhysBody3D* body2)
 {
+
 }
+
+void ModuleSceneIntro::CreateFloor(vec3 scale, int posX, int posZ, FLOOR_STYLE floor1)
+{
+	Cube s_cube;
+	PhysBody3D* pb_cube;
+
+		switch (floor1)
+		{
+		case TOP_FLOOR:
+			s_cube.Scale(scale.x, scale.y, scale.z);
+			s_cubes.PushBack(s_cube);
+			pb_cube = App->physics->AddBody(s_cube,0);
+			pb_cube->SetPos(posX, 20, posZ);
+			pb_cubes.PushBack(pb_cube);
+			break;
+		case BOTTOM_FLOOR:
+			s_cube.Scale(scale.x, scale.y, scale.z);
+			s_cubes.PushBack(s_cube);
+			pb_cube = App->physics->AddBody(s_cube, 0);
+			pb_cube->SetPos(posX, 0, posZ);
+			pb_cubes.PushBack(pb_cube);
+			break;
+		case WALL:
+			s_cube.Scale(scale.x, 20, scale.y);
+			s_cubes.PushBack(s_cube);
+			pb_cube = App->physics->AddBody(s_cube, 0);
+			pb_cube->SetPos(posX, 10, posZ);
+			pb_cubes.PushBack(pb_cube);
+			break;
+		case EMPTY_FLOOR:
+			break;
+		default:
+			break;
+		}
+		
+	
+}
+
+
 

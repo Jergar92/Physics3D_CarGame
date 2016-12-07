@@ -5,7 +5,12 @@
 #include "Primitive.h"
 
 #define MAX_SNAKE 2
-
+enum FLOOR_STYLE {
+	TOP_FLOOR,
+	BOTTOM_FLOOR,
+	WALL,
+	EMPTY_FLOOR,
+};
 struct PhysBody3D;
 struct PhysMotor3D;
 
@@ -20,7 +25,7 @@ public:
 	bool CleanUp();
 
 	void OnCollision(PhysBody3D* body1, PhysBody3D* body2);
-
+	void CreateFloor(vec3 scale, int posX, int posZ,FLOOR_STYLE floor1);
 public:
 	/*
 	PhysBody3D* pb_snake[MAX_SNAKE];
@@ -29,8 +34,12 @@ public:
 	PhysBody3D* pb_snake2[MAX_SNAKE];
 	Sphere s_snake2[MAX_SNAKE];
 	*/
-	PhysBody3D* pb_cube;
-	Cube s_cube;
+	FLOOR_STYLE floorStyle;
+	p2DynArray<PhysBody3D*> pb_cubes;
+	p2DynArray<Cube>s_cubes;
+
+	PhysBody3D* pb_cube[5];
+	Cube s_cube[5];
 	PhysBody3D* pb_chassis;
 	Cube p_chassis;
 
