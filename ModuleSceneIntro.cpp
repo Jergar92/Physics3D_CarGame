@@ -16,7 +16,6 @@ bool ModuleSceneIntro::Start()
 {
 	LOG("Loading Intro assets");
 	bool ret = true;
-<<<<<<< HEAD
 	srand(time(NULL));
 
 	/*CreateFloor(vec3(12, 1, 48), 0, 0, BOTTOM_FLOOR);
@@ -78,24 +77,55 @@ void ModuleSceneIntro::CreateFloor(vec3 scale, int posX, int posZ, FLOOR_STYLE f
 		switch (floor1)
 		{
 		case TOP_FLOOR:
-			s_cube.Scale(scale.x, scale.y, scale.z);
+			s_cube.Size(scale.x, scale.y, scale.z);
 			s_cubes.PushBack(s_cube);
 			pb_cube = App->physics->AddBody(s_cube,0);
 			pb_cube->SetPos(posX, 20, posZ);
 			pb_cubes.PushBack(pb_cube);
 			break;
 		case BOTTOM_FLOOR:
-			s_cube.Scale(scale.x, scale.y, scale.z);
+			s_cube.Size(scale.x, scale.y, scale.z);
 			s_cubes.PushBack(s_cube);
 			pb_cube = App->physics->AddBody(s_cube, 0);
 			pb_cube->SetPos(posX, 0, posZ);
 			pb_cubes.PushBack(pb_cube);
 			break;
 		case WALL:
-			s_cube.Scale(scale.x, 20, scale.y);
+
+			s_cube.Size(scale.x, 20, scale.y);
+			
 			s_cubes.PushBack(s_cube);
 			pb_cube = App->physics->AddBody(s_cube, 0);
 			pb_cube->SetPos(posX, 10, posZ);
+			pb_cubes.PushBack(pb_cube);
+			break;
+		case BOTTOM_OBSTACLE_FLOOR:
+			//FLOOR
+			s_cube.Size(scale.x, scale.y, scale.z);
+			s_cubes.PushBack(s_cube);
+			pb_cube = App->physics->AddBody(s_cube, 0);
+			pb_cube->SetPos(posX, 0, posZ);
+			pb_cubes.PushBack(pb_cube);
+
+			//OBSTACLE
+			s_cube.Size(scale.x, 5, 2);
+			s_cubes.PushBack(s_cube);
+			pb_cube = App->physics->AddBody(s_cube, 0);
+			pb_cube->SetPos(posX, 3, posZ + (scale.x - rand() % 10));
+			pb_cubes.PushBack(pb_cube);
+			break;
+		case TOP_OBSTACLE_FLOOR:
+			//FLOOR
+			s_cube.Size(scale.x, scale.y, scale.z);
+			s_cubes.PushBack(s_cube);
+			pb_cube = App->physics->AddBody(s_cube, 0);
+			pb_cube->SetPos(posX, 20, posZ);
+			pb_cubes.PushBack(pb_cube);
+			//OBSTACLE
+			s_cube.Size(scale.x, 5, 2);
+			s_cubes.PushBack(s_cube);
+			pb_cube = App->physics->AddBody(s_cube, 0);
+			pb_cube->SetPos(posX, 17, posZ + (scale.x - rand() % 10));
 			pb_cubes.PushBack(pb_cube);
 			break;
 		case EMPTY_FLOOR:

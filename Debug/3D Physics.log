@@ -1,8 +1,13 @@
 ﻿  ModuleSceneIntro.cpp
 e:\andreu\clase\fisica\physics3d_cargame\modulesceneintro.cpp(19): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
-e:\andreu\clase\fisica\physics3d_cargame\modulesceneintro.cpp(54): warning C4018: '<': signed/unsigned mismatch
-e:\andreu\clase\fisica\physics3d_cargame\modulesceneintro.cpp(80): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-e:\andreu\clase\fisica\physics3d_cargame\modulesceneintro.cpp(87): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-e:\andreu\clase\fisica\physics3d_cargame\modulesceneintro.cpp(95): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+e:\andreu\clase\fisica\physics3d_cargame\modulesceneintro.cpp(56): warning C4018: '<': signed/unsigned mismatch
+e:\andreu\clase\fisica\physics3d_cargame\modulesceneintro.cpp(83): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+e:\andreu\clase\fisica\physics3d_cargame\modulesceneintro.cpp(90): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+e:\andreu\clase\fisica\physics3d_cargame\modulesceneintro.cpp(99): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+e:\andreu\clase\fisica\physics3d_cargame\modulesceneintro.cpp(107): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+e:\andreu\clase\fisica\physics3d_cargame\modulesceneintro.cpp(114): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+e:\andreu\clase\fisica\physics3d_cargame\modulesceneintro.cpp(122): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+e:\andreu\clase\fisica\physics3d_cargame\modulesceneintro.cpp(128): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+cl : Command line warning D9028: minimal rebuild failure, reverting to normal build
   3D Physics.vcxproj -> E:\Andreu\Clase\Fisica\Physics3D_CarGame\Debug\3D Physics - class5.exe
   3D Physics.vcxproj -> E:\Andreu\Clase\Fisica\Physics3D_CarGame\Debug\3D Physics - class5.pdb (Full PDB)
