@@ -16,7 +16,7 @@ bool ModuleSceneIntro::Start()
 {
 	LOG("Loading Intro assets");
 	bool ret = true;
-<<<<<<< HEAD
+
 	srand(time(NULL));
 
 	/*CreateFloor(vec3(12, 1, 48), 0, 0, BOTTOM_FLOOR);
