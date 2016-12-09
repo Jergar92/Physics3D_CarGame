@@ -28,7 +28,7 @@ bool ModuleSceneIntro::Start()
 		for (int i = 0; i < 4; i++) {
 			FLOOR_STYLE test = static_cast<FLOOR_STYLE>(rand() % EMPTY_FLOOR);
 
-			CreateFloor(vec3(12, 1, 48), 12*i, 48*j, test);
+			CreateFloor(vec3(20, 1, 48), 20*i, 48*j, test);
 
 		}
 	}
@@ -100,19 +100,29 @@ void ModuleSceneIntro::CreateFloor(vec3 scale, int posX, int posZ, FLOOR_STYLE f
 			break;
 		case BOTTOM_TO_MIDDLE:
 
-			s_cube.Size(scale.x, scale.y, scale.z);
-			s_cube.SetRotation(90, (1, 0,0));
+			s_cube.Size(scale.x, scale.y, scale.z+2);
+			s_cube.SetRotation(-18, vec3(1, 0,0));
 
 			s_cubes.PushBack(s_cube);
 			pb_cube = App->physics->AddBody(s_cube, 0);
-			pb_cube->SetPos(posX, 0, posZ);
+			pb_cube->SetPos(posX,7, posZ);
+			pb_cubes.PushBack(pb_cube);
+			break;
+		case MIDDLE_TO_BOTTOM:
+
+			s_cube.Size(scale.x, scale.y, scale.z + 2);
+			s_cube.SetRotation(18, vec3(1, 0, 0));
+
+			s_cubes.PushBack(s_cube);
+			pb_cube = App->physics->AddBody(s_cube, 0);
+			pb_cube->SetPos(posX, 7, posZ);
 			pb_cubes.PushBack(pb_cube);
 			break;
 		case WALL:
 			s_cube.Size(scale.x, TOPFLOR_Y, scale.y);
 			s_cubes.PushBack(s_cube);
 			pb_cube = App->physics->AddBody(s_cube, 0);
-			pb_cube->SetPos(posX, 10, posZ);
+			pb_cube->SetPos(posX-2, 10, posZ);
 			pb_cubes.PushBack(pb_cube);
 			break;
 		case EMPTY_FLOOR:
