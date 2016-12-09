@@ -29,20 +29,21 @@ bool ModuleSceneIntro::Start()
 	BOTTOM_OBSTACLE_FLOOR,		2
 	TOP_OBSTACLE_FLOOR,			3
 	WALL,						4
-	MIDDLE_FLOOR,				5		
-	BOTTOM_TO_MIDDLE,			6
-	MIDDLE_TO_BOTTOM,			7	
-	MIDDLE_TO_TOP,				8
-	TOP_TO_MIDDLE,				9
-	EMPTY_FLOOR,				10
+	MIDDLE_FLOOR_B,				5
+	MIDDLE_FLOOR_T,				6		
+	BOTTOM_TO_MIDDLE,			7
+	MIDDLE_TO_BOTTOM,			8	
+	MIDDLE_TO_TOP,				9
+	TOP_TO_MIDDLE,				10
+	EMPTY_FLOOR,				11
 	*/
 	int floors[40] = {
 		1,1,1,1,
-		6,1,4,0,
-		5,1,0,0,
-		5,5,9,0,
-		5,0,5,4,
-		2,1,5,5,
+		1,1,1,1,
+		1,1,0,0,
+		1,9,7,0,
+		6,6,5,5,
+		6,6,5,5,
 		0,5,0,1,
 
 		1,1,1,1,
@@ -107,11 +108,18 @@ void ModuleSceneIntro::CreateFloor(vec3 scale, int posX, int posZ, FLOOR_STYLE f
 			pb_cube->SetPos(posX, TOPFLOR_Y, posZ);
 			pb_cubes.PushBack(pb_cube);
 			break;
-		case MIDDLE_FLOOR:
-			s_cube.Size(scale.x, scale.y, scale.z);
+		case MIDDLE_FLOOR_B:
+			s_cube.Size(scale.x, MIDDLE_SCALE, scale.z);
 			s_cubes.PushBack(s_cube);
 			pb_cube = App->physics->AddBody(s_cube, 0);
-			pb_cube->SetPos(posX, TOPFLOR_Y*0.5, posZ);
+			pb_cube->SetPos(posX, (TOPFLOR_Y*0.5)*0.5, posZ);
+			pb_cubes.PushBack(pb_cube);
+			break;
+		case MIDDLE_FLOOR_T:
+			s_cube.Size(scale.x, MIDDLE_SCALE, scale.z);
+			s_cubes.PushBack(s_cube);
+			pb_cube = App->physics->AddBody(s_cube, 0);
+			pb_cube->SetPos(posX, TOPFLOR_Y*0.5+((TOPFLOR_Y*0.5)*0.5), posZ);
 			pb_cubes.PushBack(pb_cube);
 			break;
 		case BOTTOM_FLOOR:
@@ -123,42 +131,42 @@ void ModuleSceneIntro::CreateFloor(vec3 scale, int posX, int posZ, FLOOR_STYLE f
 			break;
 		case BOTTOM_TO_MIDDLE:
 
-			s_cube.Size(scale.x, scale.y, scale.z+2);
+			s_cube.Size(scale.x, RAMP_SCALE, scale.z+2);
 			s_cube.SetRotation(-15, vec3(1, 0,0));
 
 			s_cubes.PushBack(s_cube);
 			pb_cube = App->physics->AddBody(s_cube, 0);
-			pb_cube->SetPos(posX,7, posZ);
+			pb_cube->SetPos(posX,0, posZ);
 			pb_cubes.PushBack(pb_cube);
 			break;
 		case MIDDLE_TO_BOTTOM:
 
-			s_cube.Size(scale.x, scale.y, scale.z + 2);
+			s_cube.Size(scale.x, RAMP_SCALE, scale.z + 2);
 			s_cube.SetRotation(15, vec3(1, 0, 0));
 
 			s_cubes.PushBack(s_cube);
 			pb_cube = App->physics->AddBody(s_cube, 0);
-			pb_cube->SetPos(posX, 7, posZ);
+			pb_cube->SetPos(posX,0, posZ);
 			pb_cubes.PushBack(pb_cube);
 			break;
 		case TOP_TO_MIDDLE:
 
-			s_cube.Size(scale.x, scale.y, scale.z + 2);
+			s_cube.Size(scale.x, RAMP_SCALE, scale.z + 2);
 			s_cube.SetRotation(-15, vec3(1, 0, 0));
 
 			s_cubes.PushBack(s_cube);
 			pb_cube = App->physics->AddBody(s_cube, 0);
-			pb_cube->SetPos(posX, TOPFLOR_Y-7, posZ);
+			pb_cube->SetPos(posX, TOPFLOR_Y, posZ);
 			pb_cubes.PushBack(pb_cube);
 			break;
 		case MIDDLE_TO_TOP:
 
-			s_cube.Size(scale.x, scale.y, scale.z + 2);
+			s_cube.Size(scale.x, RAMP_SCALE, scale.z + 2);
 			s_cube.SetRotation(15, vec3(1, 0, 0));
 
 			s_cubes.PushBack(s_cube);
 			pb_cube = App->physics->AddBody(s_cube, 0);
-			pb_cube->SetPos(posX, TOPFLOR_Y- 7, posZ);
+			pb_cube->SetPos(posX, TOPFLOR_Y, posZ);
 			pb_cubes.PushBack(pb_cube);
 			break;
 		case WALL:
