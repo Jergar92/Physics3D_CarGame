@@ -159,10 +159,9 @@ void Cube::InnerRender() const
 
 void Cube::Size(float x, float y, float z)
 {
-	size.x=x;
+	size.x = x;
 	size.y = y;
-	size.z =z;
-
+	size.z = z;
 }
 
 // SPHERE ============================================

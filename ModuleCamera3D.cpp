@@ -15,6 +15,8 @@ ModuleCamera3D::ModuleCamera3D(Application* app, bool start_enabled) : Module(ap
 
 	Position = vec3(0.0f, 0.0f, 5.0f);
 	Reference = vec3(0.0f, 0.0f, 0.0f);
+
+
 }
 
 ModuleCamera3D::~ModuleCamera3D()
@@ -25,6 +27,7 @@ bool ModuleCamera3D::Start()
 {
 	LOG("Setting up the camera");
 	bool ret = true;
+
 
 	return ret;
 }
@@ -64,36 +67,21 @@ update_status ModuleCamera3D::Update(float dt)
 	// Mouse motion ----------------
 	*/
 
+	mat4x4 matrix;
+	App->player->vehicle->GetTransform(&matrix);
 
-
-	btRigidBody* body = App->player->vehicle->vehicle->getRigidBody();
+/*	btRigidBody* body = App->player->vehicle->vehicle->getRigidBody();
 	btVector3 t = body->getCenterOfMassPosition();
-	
-	
-	
-	if (App->physics->GetGravityState())
-	{
-		Look({ t.getX(),  t.getY() + 5 , t.getZ() - 20 }, { t.getX(),  t.getY() + 5 , t.getZ() }, true);
-	}
-	else Look({ t.getX(),  t.getY() - 5 , t.getZ() - 20 }, { t.getX(),  t.getY() - 5 , t.getZ() }, true);
-	
-	
-	
-	
-	
-	btTransform trans = body->getWorldTransform();
-	btQuaternion quat = trans.getRotation();
+	*/
 
+	Position = matrix.translation();
 
-	float angle = (float)quat.getY()*RADTODEG;
-	LOG("ANGLE: %f", angle);
-	Position -= Reference;
-	float DeltaX = angle;
-	X = rotate(X, DeltaX, vec3(0.0f, 1.0f, 0.0f));
-	Y = rotate(Y, DeltaX, vec3(0.0f, 1.0f, 0.0f));
-	Z = rotate(Z, DeltaX, vec3(0.0f, 1.0f, 0.0f));
-    Position = Reference + Z * length(Position);
-	
+	X = vec3{matrix[0],matrix[1],matrix[2]};
+	Y = vec3{ matrix[4], matrix[5], matrix[6] };
+	Z = vec3{ matrix[8], matrix[9],matrix[10] };
+
+	vec3 VehicleLocation = { matrix[12], matrix[13]+ViewVector.y, matrix[14] };
+	Look((VehicleLocation)-Z*15, VehicleLocation, true);
 	
 	// Recalculate matrix -------------
 	CalculateViewMatrix();
