@@ -23,9 +23,35 @@ bool ModuleSceneIntro::Start()
 	CreateFloor(vec3(12, 1, 48), 24, 0, BOTTOM_FLOOR);
 	CreateFloor(vec3(12, 1, 48), 36, 0, BOTTOM_FLOOR);
 	*/
+	/*
+	TOP_FLOOR,					0
+	BOTTOM_FLOOR,				1					
+	BOTTOM_OBSTACLE_FLOOR,		2
+	TOP_OBSTACLE_FLOOR,			3
+	WALL,						4
+	MIDDLE_FLOOR,				5		
+	BOTTOM_TO_MIDDLE,			6
+	MIDDLE_TO_BOTTOM,			7	
+	MIDDLE_TO_TOP,				8
+	TOP_TO_MIDDLE,				9
+	EMPTY_FLOOR,				10
+	*/
+	int floors[40] = {
+		1,1,1,1,
+		6,1,4,0,
+		5,1,0,0,
+		5,5,9,0,
+		5,0,5,4,
+		2,1,5,5,
+		0,5,0,1,
+
+		1,1,1,1,
+		1,1,1,1,
+		1,1,1,1,
+	};
 	for (int j = 0; j < 10; j++) {
 		for (int i = 0; i < 4; i++) {
-			FLOOR_STYLE test = static_cast<FLOOR_STYLE>(rand() % EMPTY_FLOOR);
+			FLOOR_STYLE test = static_cast<FLOOR_STYLE>(floors[(4*j)+i]);
 
 			CreateFloor(vec3(20, 1, 48), 20*i, 48*j, test);
 
