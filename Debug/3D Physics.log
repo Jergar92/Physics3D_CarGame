@@ -1,8 +1,5 @@
-﻿  ModuleSceneIntro.cpp
-e:\andreu\clase\fisica\physics3d_cargame\modulesceneintro.cpp(19): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
-e:\andreu\clase\fisica\physics3d_cargame\modulesceneintro.cpp(54): warning C4018: '<': signed/unsigned mismatch
-e:\andreu\clase\fisica\physics3d_cargame\modulesceneintro.cpp(80): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-e:\andreu\clase\fisica\physics3d_cargame\modulesceneintro.cpp(87): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-e:\andreu\clase\fisica\physics3d_cargame\modulesceneintro.cpp(95): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-  3D Physics.vcxproj -> E:\Andreu\Clase\Fisica\Physics3D_CarGame\Debug\3D Physics - class5.exe
-  3D Physics.vcxproj -> E:\Andreu\Clase\Fisica\Physics3D_CarGame\Debug\3D Physics - class5.pdb (Full PDB)
+﻿  ModulePlayer.cpp
+c:\users\andreurb1\desktop\physics3d_cargame\moduleplayer.cpp(131): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\andreurb1\desktop\physics3d_cargame\moduleplayer.cpp(132): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+  3D Physics.vcxproj -> C:\Users\andreurb1\Desktop\Physics3D_CarGame\Debug\3D Physics - class5.exe
+  3D Physics.vcxproj -> C:\Users\andreurb1\Desktop\Physics3D_CarGame\Debug\3D Physics - class5.pdb (Full PDB)
