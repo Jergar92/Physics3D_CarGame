@@ -134,7 +134,7 @@ void ModulePlayer::RotateCar()
 	//Get rotation matrix
 	//Rotate your first translation vector with the matrix
 	//tranlation = RotationMat*tranlation;
-	chassis.transform.translate(RotationMat.translation().x, RotationMat.translation().y, RotationMat.translation().z);
+//	chassis.transform.translate(RotationMat.translation().x, RotationMat.translation().y, RotationMat.translation().z);
 	//chassis.transform.rotate(totalRotation, vec3(0, 0, 1));
 	//Update axis variable to apply transform on
 	vehicle->SetTransform(chassis.transform.M);
