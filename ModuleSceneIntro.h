@@ -3,7 +3,7 @@
 #include "p2DynArray.h"
 #include "Globals.h"
 #include "Primitive.h"
-#define TOPFLOR_Y 30
+#define TOPFLOR_Y 27
 #define MAX_SNAKE 2
 enum FLOOR_STYLE {
 	TOP_FLOOR,
@@ -14,6 +14,8 @@ enum FLOOR_STYLE {
 	MIDDLE_FLOOR,
 	BOTTOM_TO_MIDDLE,
 	MIDDLE_TO_BOTTOM,
+	MIDDLE_TO_TOP,
+	TOP_TO_MIDDLE,
 	EMPTY_FLOOR,
 };
 struct PhysBody3D;
