@@ -102,6 +102,10 @@ bool ModulePlayer::Start()
 	vehicle = App->physics->AddVehicle(car);
 	vehicle->SetPos(0, 12, 10);
 
+	mat4x4 matrix;
+	vehicle->GetTransform(&matrix);
+	App->camera->ViewVector = {0,7,0};
+
 	return true;
 }
 
@@ -134,8 +138,7 @@ update_status ModulePlayer::Update(float dt)
 	App->camera->Z = rotate(App->camera->Z, 5, vec3(0.0f, 1.0f, 0.0f));*/
 
 	//App->camera->Position = { t.getX(),  t.getY() , t.getZ()-10 };
-
-	
+		
 
 
 	turn = acceleration = brake = 0.0f;
@@ -171,23 +174,50 @@ update_status ModulePlayer::Update(float dt)
 
 	if(App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_REPEAT)
 	{
-		brake = BRAKE_POWER;
+		acceleration = -MAX_ACCELERATION;
 	}
+
+
+	//Reset car
+	if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN)
+	{
+		if (App->physics->GetGravityState() == false)
+		{
+			state = BOTTOM;
+			App->physics->ChangeGravity();
+
+			Cube chassis(vehicle->info.chassis_size.x, vehicle->info.chassis_size.y, vehicle->info.chassis_size.z);
+
+			vehicle->vehicle->getChassisWorldTransform().getOpenGLMatrix(&chassis.transform);
+			chassis.SetRotation(0, vec3(0, 0, 1));
+
+			vehicle->SetTransform(chassis.transform.M);
+			App->camera->ViewVector.y *= -1;
+		}
+
+		vehicle->SetPos(0, 2, 0);
+		
+	
+	}
+
 	if (gravityChange != true&& state != CHANGING) {
 		if (App->input->GetKey(SDL_SCANCODE_G) == KEY_DOWN)
 		{
 			state = CHANGING;
 			gravityChange = true;
 			if (App->physics->GetGravityState() == true)
+			{
 				vehicle->Push(0, 8000, 0);
-
+			}
 			else 
 				vehicle->Push(0, -8000, 0);
 					
+			App->camera->ViewVector.y *= -1;
 			App->physics->ChangeGravity();
 			startRotation = true;
 		}
 	}
+
 	vehicle->ApplyEngineForce(acceleration);
 	vehicle->Turn(turn);
 	vehicle->Brake(brake);

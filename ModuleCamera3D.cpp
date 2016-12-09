@@ -15,6 +15,8 @@ ModuleCamera3D::ModuleCamera3D(Application* app, bool start_enabled) : Module(ap
 
 	Position = vec3(0.0f, 0.0f, 5.0f);
 	Reference = vec3(0.0f, 0.0f, 0.0f);
+
+
 }
 
 ModuleCamera3D::~ModuleCamera3D()
@@ -25,6 +27,7 @@ bool ModuleCamera3D::Start()
 {
 	LOG("Setting up the camera");
 	bool ret = true;
+
 
 	return ret;
 }
@@ -77,7 +80,7 @@ update_status ModuleCamera3D::Update(float dt)
 	Y = vec3{ matrix[4], matrix[5], matrix[6] };
 	Z = vec3{ matrix[8], matrix[9],matrix[10] };
 
-	vec3 VehicleLocation = { matrix[12], matrix[13]+7, matrix[14] };
+	vec3 VehicleLocation = { matrix[12], matrix[13]+ViewVector.y, matrix[14] };
 	Look((VehicleLocation)-Z*15, VehicleLocation, true);
 	
 	// Recalculate matrix -------------
