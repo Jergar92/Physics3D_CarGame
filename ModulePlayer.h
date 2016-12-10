@@ -14,7 +14,7 @@ struct PhysVehicle3D;
 #define MAX_ACCELERATION 2000.0f
 #define TURN_DEGREES 15.0f * DEGTORAD
 #define BRAKE_POWER 1000.0f
-#define ROTATION_VALUE 4.0f
+#define ROTATION_VALUE 6.0f
 #define ROTATION_LIMIT 180.0f
 
 class ModulePlayer : public Module
@@ -38,6 +38,6 @@ private:
 	float totalRotation;
 	bool gravityChange;
 	bool startRotation;
-	
+	Timer rot_timer;
 	
 };

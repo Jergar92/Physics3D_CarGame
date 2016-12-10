@@ -209,6 +209,7 @@ update_status ModulePlayer::Update(float dt)
 		{
 			state = CHANGING;
 			gravityChange = true;
+			rot_timer.Start();
 			if (App->physics->GetGravityState() == true)
 			{
 				vehicle->Push(0, 8000, 0);
@@ -216,7 +217,6 @@ update_status ModulePlayer::Update(float dt)
 			else 
 				vehicle->Push(0, -8000, 0);
 					
-			App->camera->ViewVector.y *= -1;
 			App->physics->ChangeGravity();
 			startRotation = true;
 		}
@@ -236,18 +236,36 @@ update_status ModulePlayer::Update(float dt)
 		gravityChange = vehicle->vehicle->m_wheelInfo[0].m_raycastInfo.m_isInContact;
 	}
 
-	if (startRotation == true) {
+	if (startRotation == true) 
+	{
 		RotateCar();
-		if (totalRotation == ROTATION_LIMIT) {
+		LOG("TIME: %i", rot_timer.Read());
+		
+		if (rot_timer.Read() > 10)
+		{
+			if (App->physics->GetGravityState() != true)
+			{
+				App->camera->ViewVector.y -= 0.5;
+				rot_timer.Start();
+			}
+			else
+			{
+				App->camera->ViewVector.y += 0.5;
+				rot_timer.Start();
+			}				
+		}
+	
+
+		if (totalRotation == ROTATION_LIMIT) 
+		{
 			startRotation = false;
 			state = TOP;
-
 		}
-		else if (totalRotation == ROTATION_LIMIT * 2) {
+		else if (totalRotation == ROTATION_LIMIT * 2) 
+		{
 			totalRotation = 0.0f;
 			startRotation = false;
 			state = BOTTOM;
-
 		}
 	}
 	return UPDATE_CONTINUE;
