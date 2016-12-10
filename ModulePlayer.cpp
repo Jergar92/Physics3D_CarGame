@@ -121,12 +121,16 @@ void ModulePlayer::RotateCar()
 {
 	float rotateValue= ROTATION_VALUE;
 	totalRotation += rotateValue;
-	Cube chassis(vehicle->info.chassis_size.x, vehicle->info.chassis_size.y, vehicle->info.chassis_size.z);
 
-	vehicle->vehicle->getChassisWorldTransform().getOpenGLMatrix(&chassis.transform);
-	chassis.SetRotation(totalRotation, vec3(0, 0, 1));
-	
-	vehicle->SetTransform(chassis.transform.M);
+	mat4x4 rotated_matrix;
+	rotated_matrix.rotate(rotateValue, {0, 0, 1});
+
+	mat4x4 vehicle_matrix;
+	App->player->vehicle->GetTransform(&vehicle_matrix);
+
+	mat4x4 result = vehicle_matrix*rotated_matrix;
+	vehicle->SetTransform(result.M);
+
 }
 
 // Update: draw background
@@ -231,6 +235,7 @@ update_status ModulePlayer::Update(float dt)
 	if (gravityChange==true) {
 		gravityChange = vehicle->vehicle->m_wheelInfo[0].m_raycastInfo.m_isInContact;
 	}
+
 	if (startRotation == true) {
 		RotateCar();
 		if (totalRotation == ROTATION_LIMIT) {

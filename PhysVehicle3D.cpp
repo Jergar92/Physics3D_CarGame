@@ -88,10 +88,6 @@ void PhysVehicle3D::Turn(float degrees)
 	}
 }
 
-void PhysVehicle3D::RotateVehiche()
-{
-	
-}
 bool PhysVehicle3D::ChangeAxis()
 {
 	bool ret = false;
