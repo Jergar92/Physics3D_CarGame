@@ -35,7 +35,8 @@ bool ModuleSceneIntro::Start()
 	MIDDLE_TO_BOTTOM,			8	
 	MIDDLE_TO_TOP,				9
 	TOP_TO_MIDDLE,				10
-	EMPTY_FLOOR,				11
+	SLIDER,						11
+	EMPTY_FLOOR,				12
 	*/
 	int floors[100] = {
 		1,1,1,1,
@@ -44,21 +45,21 @@ bool ModuleSceneIntro::Start()
 		0,0,0,0,
 		1,1,1,1,
 		1,1,1,1,
-		11,11,11,1,
+		12,12,12,11,
 		0,0,0,0,
 		0,0,0,0,
 		0,0,0,0,
-		1,11,11,11,
-		1,11,11,11,
+		11,12,12,12,
+		1,12,12,12,
 		1,1,1,1,
-		11,1,1,1,
+		12,1,1,1,
 		0,1,1,1,
-		0,11,7,7,
+		0,12,7,7,
 		0,0,0,0,
-		0,0,0,0,
-		2,1,1,0,
+		3,3,3,3,
+		2,1,2,0,
 		1,2,1,0,
-		1,1,2,0,
+		2,1,2,0,
 		1,2,1,0,
 		1,1,1,1,
 		1,1,1,1,
@@ -112,6 +113,7 @@ void ModuleSceneIntro::CreateFloor(vec3 scale, int posX, int posZ, FLOOR_STYLE f
 {
 	Cube s_cube;
 	PhysBody3D* pb_cube;
+	//body->setActivationState(4);
 
 		switch (floor1)
 		{
@@ -200,7 +202,7 @@ void ModuleSceneIntro::CreateFloor(vec3 scale, int posX, int posZ, FLOOR_STYLE f
 			pb_cubes.PushBack(pb_cube);
 
 			//OBSTACLE
-			s_cube.Size(scale.x, 5, 2);
+			s_cube.Size(scale.x, OBSTACLE_SCALE, 2);
 			s_cubes.PushBack(s_cube);
 			pb_cube = App->physics->AddBody(s_cube, 0);
 			pb_cube->SetPos(posX, 3, posZ + (scale.x *0.5));
@@ -214,11 +216,27 @@ void ModuleSceneIntro::CreateFloor(vec3 scale, int posX, int posZ, FLOOR_STYLE f
 			pb_cube->SetPos(posX, TOPFLOR_Y, posZ);
 			pb_cubes.PushBack(pb_cube);
 			//OBSTACLE
-			s_cube.Size(scale.x, 5, 2);
+			s_cube.Size(scale.x, OBSTACLE_SCALE, 2);
 			s_cubes.PushBack(s_cube);
 			pb_cube = App->physics->AddBody(s_cube, 0);
 			pb_cube->SetPos(posX, TOPFLOR_Y-3, posZ + (scale.x*0.5));
 			pb_cubes.PushBack(pb_cube);
+			break;
+		case SLIDER:
+			//FLOOR
+			s_cube.Size(scale.x, scale.y, scale.z);
+			s_cubes.PushBack(s_cube);
+			pb_cube = App->physics->AddBody(s_cube, 0);
+			pb_cube->SetPos(posX, scale.y*0.5, posZ);
+			pb_cubes.PushBack(pb_cube);
+			//SLIDER OBSTACLE
+			s_cube.Size(scale.x, OBSTACLE_SCALE, scale.y);
+			s_cubes.PushBack(s_cube);
+			pb_cube = App->physics->AddBody(s_cube, 100);
+			pb_cube->SetPos(posX, TOPFLOR_Y*0.5, posZ + (scale.x*0.5));
+			App->physics->AddConstraintSlider(*pb_cube, true);
+			pb_cubes.PushBack(pb_cube);
+			pb_cube->GetBody()->setActivationState(4);
 			break;
 		case EMPTY_FLOOR:
 			break;

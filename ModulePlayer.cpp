@@ -27,7 +27,7 @@ bool ModulePlayer::Start()
 	car.chassis_size.Set(3, 1.5, 6);
 	car.chassis_offset.Set(0, 1.5, 0);
 	car.mass = 500.0f;
-	car.suspensionStiffness = 15.88f;
+	car.suspensionStiffness = 5.88f;
 	car.suspensionCompression = 5.83f;
 	car.suspensionDamping = 0.88f;
 	car.maxSuspensionTravelCm = 1000.0f;

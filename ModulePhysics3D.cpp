@@ -232,7 +232,6 @@ PhysBody3D* ModulePhysics3D::AddBody(const Cube& cube, float mass)
 {
 	btCollisionShape* colShape = new btBoxShape(btVector3(cube.size.x*0.5f, cube.size.y*0.5f, cube.size.z*0.5f));
 	shapes.add(colShape);
-
 	btTransform startTransform;
 	startTransform.setFromOpenGLMatrix(&cube.transform);
 
@@ -246,7 +245,6 @@ PhysBody3D* ModulePhysics3D::AddBody(const Cube& cube, float mass)
 
 	btRigidBody* body = new btRigidBody(rbInfo);
 	PhysBody3D* pbody = new PhysBody3D(body);
-
 	body->setUserPointer(pbody);
 	world->addRigidBody(body);
 	bodies.add(pbody);
@@ -367,6 +365,18 @@ void ModulePhysics3D::AddConstraintHinge(PhysBody3D& bodyA, PhysBody3D& bodyB, c
 	constraints.add(hinge);
 	hinge->setDbgDrawSize(2.0f);
 }
+void ModulePhysics3D::AddConstraintSlider(PhysBody3D & bodyA,  bool disable_collision)
+{
+	btTransform axis;
+	axis.setIdentity();
+	axis.setRotation(btQuaternion(0, 0, 1, 1));
+	btSliderConstraint* slider = new btSliderConstraint(*(bodyA.body), axis, true);
+	world->addConstraint(slider, disable_collision);
+	slider->setLowerLinLimit(-15);
+	slider->setUpperLinLimit(15);
+	constraints.add(slider);
+}
+
 bool ModulePhysics3D::GetGravityState()
 {
 	return currentGravity;
