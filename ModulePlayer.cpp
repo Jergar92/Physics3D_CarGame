@@ -190,15 +190,15 @@ update_status ModulePlayer::Update(float dt)
 			state = BOTTOM;
 			App->physics->ChangeGravity();
 
-			Cube chassis(vehicle->info.chassis_size.x, vehicle->info.chassis_size.y, vehicle->info.chassis_size.z);
-
-			vehicle->vehicle->getChassisWorldTransform().getOpenGLMatrix(&chassis.transform);
-			chassis.SetRotation(0, vec3(0, 0, 1));
-
-			vehicle->SetTransform(chassis.transform.M);
-			App->camera->ViewVector.y *= -1;
 		}
 
+		mat4x4 matrix;
+
+		vehicle->SetTransform(matrix.M);
+		App->camera->ViewVector.y = 7;
+
+		vehicle->GetBody()->setAngularVelocity({ 0, 0, 0 });
+		vehicle->GetBody()->setLinearVelocity({ 0, 0, 0 });
 		vehicle->SetPos(0, 2, 0);
 		
 	
