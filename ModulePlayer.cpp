@@ -119,7 +119,7 @@ bool ModulePlayer::CleanUp()
 
 void ModulePlayer::RotateCar()
 {
-	float rotateValue= ROTATION_VALUE;
+	float rotateValue = ROTATION_VALUE;
 	totalRotation += rotateValue;
 
 	mat4x4 rotated_matrix;
@@ -147,9 +147,13 @@ update_status ModulePlayer::Update(float dt)
 
 	turn = acceleration = brake = 0.0f;
 
-	if(App->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT)
+	if(App->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT && vehicle->GetKmh()<MAX_VELOCITY)
 	{
 		acceleration = MAX_ACCELERATION;
+	}
+	else if(vehicle->GetKmh() >= MAX_VELOCITY)
+	{
+		acceleration = 0;
 	}
 
 	if(App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT)
@@ -164,7 +168,7 @@ update_status ModulePlayer::Update(float dt)
 		}
 	}
 
-	if(App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
+	else if(App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
 	{
 		if (state == BOTTOM) {
 			if (turn > -TURN_DEGREES)
@@ -176,35 +180,8 @@ update_status ModulePlayer::Update(float dt)
 		}
 	}
 
-	if(App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_REPEAT)
+	else if (gravityChange != true && state != CHANGING)
 	{
-		acceleration = -MAX_ACCELERATION;
-	}
-
-
-	//Reset car
-	if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN)
-	{
-		if (App->physics->GetGravityState() == false)
-		{
-			state = BOTTOM;
-			App->physics->ChangeGravity();
-
-		}
-
-		mat4x4 matrix;
-
-		vehicle->SetTransform(matrix.M);
-		App->camera->ViewVector.y = 7;
-
-		vehicle->GetBody()->setAngularVelocity({ 0, 0, 0 });
-		vehicle->GetBody()->setLinearVelocity({ 0, 0, 0 });
-		vehicle->SetPos(0, 2, 0);
-		
-	
-	}
-
-	if (gravityChange != true&& state != CHANGING) {
 		if (App->input->GetKey(SDL_SCANCODE_G) == KEY_DOWN)
 		{
 			state = CHANGING;
@@ -214,15 +191,50 @@ update_status ModulePlayer::Update(float dt)
 			{
 				vehicle->Push(0, 8000, 0);
 			}
-			else 
+			else
 				vehicle->Push(0, -8000, 0);
-					
+
 			App->physics->ChangeGravity();
 			startRotation = true;
 		}
 	}
 
+
+	if(App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_REPEAT)
+	{
+		acceleration = -MAX_ACCELERATION;
+	}
+
+
+	mat4x4 vehicle_matrix;
+	App->player->vehicle->GetTransform(&vehicle_matrix);
+
+	//Reset car
+	if (vehicle_matrix.translation().y <= LOW_LIMIT || vehicle_matrix.translation().y > UP_LIMIT)
+	{
+		if (App->physics->GetGravityState() == false)
+		{
+			App->physics->ChangeGravity();
+
+		}
+		state = BOTTOM;
+		mat4x4 matrix;
+
+		vehicle->SetTransform(matrix.M);
+		App->camera->ViewVector.y = 7;
+
+		vehicle->GetBody()->setAngularVelocity({ 0, 0, 0 });
+		vehicle->GetBody()->setLinearVelocity({ 0, 0, 0 });
+		vehicle->SetPos(0, 2, 0);
+
+	
+	}
+
+	
+
+	
 	vehicle->ApplyEngineForce(acceleration);
+	
 	vehicle->Turn(turn);
 	vehicle->Brake(brake);
 
