@@ -17,7 +17,7 @@ struct PhysVehicle3D;
 #define BRAKE_POWER 1000.0f
 #define ROTATION_VALUE 6.0f
 #define ROTATION_LIMIT 180.0f
-#define LOW_LIMIT 0
+#define LOW_LIMIT -30
 #define UP_LIMIT 80
 
 class ModulePlayer : public Module

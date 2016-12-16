@@ -226,7 +226,7 @@ update_status ModulePlayer::Update(float dt)
 		vehicle->GetBody()->setAngularVelocity({ 0, 0, 0 });
 		vehicle->GetBody()->setLinearVelocity({ 0, 0, 0 });
 		vehicle->SetPos(0, 2, 0);
-
+		totalRotation = 0;
 	
 	}
 
