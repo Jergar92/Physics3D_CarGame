@@ -36,9 +36,10 @@ public:
 	void AddConstraintHinge(PhysBody3D& bodyA, PhysBody3D& bodyB, const vec3& anchorA, const vec3& anchorB, const vec3& axisS, const vec3& axisB, bool disable_collision = false);
 	void AddConstraintSlider(PhysBody3D & bodyA, bool disable_collision);
 
-	
+	btDiscreteDynamicsWorld* GetWorld();
 	bool GetGravityState();
 	void ChangeGravity();
+	bool isDebug();
 private:
 	bool currentGravity = true;
 	bool gravityChange = true;

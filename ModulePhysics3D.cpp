@@ -192,6 +192,7 @@ bool ModulePhysics3D::CleanUp()
 // ---------------------------------------------------------
 PhysBody3D* ModulePhysics3D::AddBody(const Sphere& sphere, float mass)
 {
+	
 	btCollisionShape* colShape = new btSphereShape(sphere.radius);
 	shapes.add(colShape);
 
@@ -308,7 +309,6 @@ PhysVehicle3D* ModulePhysics3D::AddVehicle(const VehicleInfo& info)
 	tuning.m_suspensionStiffness = info.suspensionStiffness;
 
 	btRaycastVehicle* vehicle = new btRaycastVehicle(tuning, body, vehicle_raycaster);
-
 	vehicle->setCoordinateSystem(0, 1, 2);
 
 	for(int i = 0; i < info.num_wheels; ++i)
@@ -367,6 +367,11 @@ void ModulePhysics3D::AddConstraintSlider(PhysBody3D & bodyA,  bool disable_coll
 	constraints.add(slider);
 }
 
+btDiscreteDynamicsWorld * ModulePhysics3D::GetWorld()
+{
+	return world;
+}
+
 bool ModulePhysics3D::GetGravityState()
 {
 	return currentGravity;
@@ -375,6 +380,10 @@ bool ModulePhysics3D::GetGravityState()
 void ModulePhysics3D::ChangeGravity()
 {
 	gravityChange = !gravityChange;
+}
+bool ModulePhysics3D::isDebug()
+{
+	return debug==true;
 }
 // =============================================
 void DebugDrawer::drawLine(const btVector3& from, const btVector3& to, const btVector3& color)

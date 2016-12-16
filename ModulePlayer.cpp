@@ -134,6 +134,23 @@ void ModulePlayer::RotateCar()
 
 }
 
+bool ModulePlayer::CheckContact()
+{
+	bool ret = false;
+	btVector3 btFrom(5, 100, 5);
+	btVector3 btTo(5, -5, 5);
+	btCollisionWorld::ClosestRayResultCallback res(btFrom, btTo);
+
+	App->physics->GetWorld()->rayTest(btFrom, btTo, res);
+	if (App->physics->isDebug()) {
+		App->physics->GetWorld()->getDebugDrawer()->drawLine(btFrom, btTo, btVector3(1, 1, 1));
+	}
+	if (res.hasHit()) {
+		ret = true;
+	}
+	return ret;
+}
+
 float ModulePlayer::ReadTime()
 {
 	return (float)playerTimer.Read() / 1000.0f;
@@ -161,7 +178,6 @@ update_status ModulePlayer::Update(float dt)
 
 	//App->camera->Position = { t.getX(),  t.getY() , t.getZ()-10 };
 		
-
 
 	turn = acceleration = brake = 0.0f;
 
@@ -198,7 +214,7 @@ update_status ModulePlayer::Update(float dt)
 		}
 	}
 
-	else if (gravityChange != true && state != CHANGING)
+	else if (onFloor == true && state != CHANGING)
 	{
 		if (App->input->GetKey(SDL_SCANCODE_G) == KEY_DOWN)
 		{
@@ -222,8 +238,12 @@ update_status ModulePlayer::Update(float dt)
 	{
 		acceleration = -MAX_ACCELERATION;
 	}
-
-
+	
+	//Check car is on floor
+	if (state == CHANGING && gravityChange != true) {
+		onFloor = CheckContact();
+	}
+	
 	mat4x4 vehicle_matrix;
 	App->player->vehicle->GetTransform(&vehicle_matrix);
 
@@ -244,7 +264,7 @@ update_status ModulePlayer::Update(float dt)
 		vehicle->GetBody()->setAngularVelocity({ 0, 0, 0 });
 		vehicle->GetBody()->setLinearVelocity({ 0, 0, 0 });
 		vehicle->SetPos(0, 2, 0);
-		totalRotation = 0;
+		totalRotation = 0.0f;
 		playerTimer.Start();
 	}
 
@@ -276,12 +296,13 @@ update_status ModulePlayer::Update(float dt)
 	
 
 	App->window->SetTitle(title);
-
-	if (gravityChange==true) {
+	bool hola = vehicle->vehicle->m_wheelInfo[0].m_raycastInfo.m_isInContact;
+	if (hola) {
 		gravityChange = vehicle->vehicle->m_wheelInfo[0].m_raycastInfo.m_isInContact;
+
 	}
-
-
+	
+	
 	if (startRotation == true) 
 	{
 		RotateCar();

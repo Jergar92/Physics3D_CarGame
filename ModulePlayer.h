@@ -32,6 +32,7 @@ public:
 
 public:
 	void RotateCar();
+	bool CheckContact();
 	float ReadTime();
 	void SetRecord(float newTime);
 	PhysVehicle3D* vehicle;
@@ -47,8 +48,10 @@ private:
 	float totalRotation;
 	bool gravityChange;
 	bool startRotation;
+	bool onFloor;
 	bool record = false;
 	float bestTime = 0.0f;
 	Timer rot_timer;
+
 	Timer playerTimer;
 };
