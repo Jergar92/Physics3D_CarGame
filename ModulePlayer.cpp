@@ -20,6 +20,7 @@ bool ModulePlayer::Start()
 	LOG("Loading player");
 	gravityChange = false;
 	startRotation = false;
+	record = false;
 	state = BOTTOM;
 	totalRotation = 0.0f;
 	VehicleInfo car;
@@ -156,13 +157,37 @@ float ModulePlayer::ReadTime()
 	return (float)playerTimer.Read() / 1000.0f;
 }
 
+void ModulePlayer::ResetCar()
+{
+	if (App->physics->GetGravityState() == false)
+	{
+		App->physics->ChangeGravity();
+
+	}
+	state = BOTTOM;
+	mat4x4 matrix;
+
+	vehicle->SetTransform(matrix.M);
+	App->camera->ViewVector.y = 7;
+
+	vehicle->GetBody()->setAngularVelocity({ 0, 0, 0 });
+	vehicle->GetBody()->setLinearVelocity({ 0, 0, 0 });
+	vehicle->SetPos(0, 2, 0);
+	totalRotation = 0;
+	playerTimer.Start();
+}
+
 void ModulePlayer::SetRecord(float newTime)
 {
-	if (record == false) {
+	if (record == false) 
+	{
 		bestTime = newTime;
+		record = true;
 	}
-	else {
-		if (bestTime > newTime) {
+	else 
+	{
+		if (bestTime > newTime) 
+		{
 			bestTime = newTime;
 		}
 	}
@@ -214,8 +239,9 @@ update_status ModulePlayer::Update(float dt)
 		}
 	}
 
-	else if (onFloor == true && state != CHANGING)
+	else if (gravityChange != true && state != CHANGING)
 	{
+		//will change "gravityChange != true" for "onFloor==true"
 		if (App->input->GetKey(SDL_SCANCODE_G) == KEY_DOWN)
 		{
 			state = CHANGING;
@@ -238,36 +264,23 @@ update_status ModulePlayer::Update(float dt)
 	{
 		acceleration = -MAX_ACCELERATION;
 	}
-	
+	/*
 	//Check car is on floor
 	if (state == CHANGING && gravityChange != true) {
 		onFloor = CheckContact();
 	}
-	
+	*/
+	if (gravityChange == true) {
+		gravityChange = vehicle->vehicle->m_wheelInfo[0].m_raycastInfo.m_isInContact;
+	}
 	mat4x4 vehicle_matrix;
 	App->player->vehicle->GetTransform(&vehicle_matrix);
 
 	//Reset car
 	if (vehicle_matrix.translation().y <= LOW_LIMIT || vehicle_matrix.translation().y > UP_LIMIT)
 	{
-		if (App->physics->GetGravityState() == false)
-		{
-			App->physics->ChangeGravity();
-
-		}
-		state = BOTTOM;
-		mat4x4 matrix;
-
-		vehicle->SetTransform(matrix.M);
-		App->camera->ViewVector.y = 7;
-
-		vehicle->GetBody()->setAngularVelocity({ 0, 0, 0 });
-		vehicle->GetBody()->setLinearVelocity({ 0, 0, 0 });
-		vehicle->SetPos(0, 2, 0);
-		totalRotation = 0.0f;
-		playerTimer.Start();
+		ResetCar();
 	}
-
 	
 
 	
@@ -278,29 +291,27 @@ update_status ModulePlayer::Update(float dt)
 
 	char title[80];
 
-
+	
 	if (win == false)
 	{
 		float time = ReadTime();	
-		sprintf_s(title, "%.1f Km/h, Timer %.2f ", vehicle->GetKmh(), time, bestTime);
+		sprintf_s(title, "%.1f Km/h, Timer %.2f - Best time:%.2f ", vehicle->GetKmh(), time, bestTime);
 	}
 	else
 	{
-		sprintf_s(title, "You won!");
-		if (win_timer.Read() < 5)
+		sprintf_s(title, "You won! Your time:%.2f - Best time:%.2f", last_time, bestTime);
+		if (win_timer.Read() > 7000)
 		{
 			win = false;
+			ResetCar();
 		}
 	}
 
 	
+	
 
 	App->window->SetTitle(title);
-	bool hola = vehicle->vehicle->m_wheelInfo[0].m_raycastInfo.m_isInContact;
-	if (hola) {
-		gravityChange = vehicle->vehicle->m_wheelInfo[0].m_raycastInfo.m_isInContact;
-
-	}
+	
 	
 	
 	if (startRotation == true) 
