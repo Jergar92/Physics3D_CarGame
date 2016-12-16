@@ -76,10 +76,10 @@ bool ModuleSceneIntro::Start()
 		}
 	}
 
-	s_victory.Size(100, 30, 10);
+	s_victory.Size(100, 30, 1);
 
 	pb_victory = App->physics->AddBody(s_victory, 0);
-	pb_victory->SetPos(30, 0, 1010);
+	pb_victory->SetPos(30, 0, 1000);
 	pb_victory->GetTransform(&s_victory.transform);
 	pb_victory->SetAsSensor(true);
 	pb_victory->collision_listeners.add(this);
@@ -117,8 +117,14 @@ void ModuleSceneIntro::OnCollision(PhysBody3D* body1, PhysBody3D* body2)
 {
 	if((body1 == pb_victory) || (body2 == pb_victory))
 	{
-		App->player->win = true;
-		App->player->win_timer.Start();
+		if (App->player->win == false)
+		{
+			App->player->win = true;
+			App->player->win_timer.Start();
+			App->player->last_time = App->player->ReadTime();
+			App->player->SetRecord(App->player->last_time);
+			
+		}
 	}
 
 }
