@@ -16,6 +16,7 @@ ModulePlayer::~ModulePlayer()
 // Load assets
 bool ModulePlayer::Start()
 {
+	playerTimer.Start();
 	LOG("Loading player");
 	gravityChange = false;
 	startRotation = false;
@@ -133,6 +134,23 @@ void ModulePlayer::RotateCar()
 
 }
 
+float ModulePlayer::ReadTime()
+{
+	return (float)playerTimer.Read() / 1000.0f;
+}
+
+void ModulePlayer::SetRecord(float newTime)
+{
+	if (record == false) {
+		bestTime = newTime;
+	}
+	else {
+		if (bestTime > newTime) {
+			bestTime = newTime;
+		}
+	}
+}
+
 // Update: draw background
 update_status ModulePlayer::Update(float dt)
 {
@@ -227,7 +245,7 @@ update_status ModulePlayer::Update(float dt)
 		vehicle->GetBody()->setLinearVelocity({ 0, 0, 0 });
 		vehicle->SetPos(0, 2, 0);
 		totalRotation = 0;
-	
+		playerTimer.Start();
 	}
 
 	
@@ -241,7 +259,10 @@ update_status ModulePlayer::Update(float dt)
 	vehicle->Render();
 
 	char title[80];
-	sprintf_s(title, "%.1f Km/h", vehicle->GetKmh());
+	float time = ReadTime();
+
+	
+	sprintf_s(title, "%.1f Km/h, Timer %.2f ", vehicle->GetKmh(), time, bestTime);
 	App->window->SetTitle(title);
 	
 	if (gravityChange==true) {
