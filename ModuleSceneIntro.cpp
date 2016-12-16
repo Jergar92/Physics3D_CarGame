@@ -3,7 +3,9 @@
 #include "ModuleSceneIntro.h"
 #include "Primitive.h"
 #include "PhysBody3D.h"
+#include "ModulePlayer.h"
 #include <time.h>  
+
 ModuleSceneIntro::ModuleSceneIntro(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
 }
@@ -74,6 +76,14 @@ bool ModuleSceneIntro::Start()
 		}
 	}
 
+	s_victory.Size(100, 30, 10);
+
+	pb_victory = App->physics->AddBody(s_victory, 0);
+	pb_victory->SetPos(30, 0, 1010);
+	pb_victory->GetTransform(&s_victory.transform);
+	pb_victory->SetAsSensor(true);
+	pb_victory->collision_listeners.add(this);
+
 	App->camera->Move(vec3(1.0f, 1.0f, 0.0f));
 	App->camera->LookAt(vec3(0, 0, 0));
 	return ret;
@@ -99,13 +109,17 @@ update_status ModuleSceneIntro::Update(float dt)
 		}
 		
 	}
-	
 
 	return UPDATE_CONTINUE;
 }
 
 void ModuleSceneIntro::OnCollision(PhysBody3D* body1, PhysBody3D* body2)
 {
+	if((body1 == pb_victory) || (body2 == pb_victory))
+	{
+		App->player->win = true;
+		App->player->win_timer.Start();
+	}
 
 }
 

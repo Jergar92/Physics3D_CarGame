@@ -36,6 +36,10 @@ public:
 	float turn;
 	float acceleration;
 	float brake;
+
+	bool win = false;
+	Timer win_timer;
+
 private:
 	CarState state;
 	float totalRotation;

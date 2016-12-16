@@ -234,19 +234,30 @@ update_status ModulePlayer::Update(float dt)
 
 	
 	vehicle->ApplyEngineForce(acceleration);
-	
 	vehicle->Turn(turn);
 	vehicle->Brake(brake);
-
 	vehicle->Render();
 
 	char title[80];
-	sprintf_s(title, "%.1f Km/h", vehicle->GetKmh());
+
+	if (win == false)
+		sprintf_s(title, "%.1f Km/h", vehicle->GetKmh());
+	else
+	{
+		sprintf_s(title, "You won!");
+		if (win_timer.Read() < 5)
+		{
+			win = false;
+		}
+	}
+
+
 	App->window->SetTitle(title);
-	
+
 	if (gravityChange==true) {
 		gravityChange = vehicle->vehicle->m_wheelInfo[0].m_raycastInfo.m_isInContact;
 	}
+
 
 	if (startRotation == true) 
 	{
