@@ -50,7 +50,7 @@ private:
 	float totalRotation;
 	bool gravityChange;
 	bool startRotation;
-	bool onFloor;
+	bool onFloor=true;
 	bool record;
 	float bestTime = 0.0f;
 	Timer rot_timer;

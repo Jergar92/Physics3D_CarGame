@@ -138,8 +138,17 @@ void ModulePlayer::RotateCar()
 bool ModulePlayer::CheckContact()
 {
 	bool ret = false;
-	btVector3 btFrom(5, 100, 5);
-	btVector3 btTo(5, -5, 5);
+
+	mat4x4 vehicle_matrix;
+	App->player->vehicle->GetTransform(&vehicle_matrix);
+	vec3 position = vehicle_matrix.translation();
+	btVector3 btFrom(position.x, position.y, position.z);
+	btVector3 btTo;
+	if (totalRotation == ROTATION_LIMIT)
+	btTo= btVector3(position.x, position.y+5, position.z);
+	else if (totalRotation == 0.0f)
+	btTo= btVector3(position.x, position.y+(-5), position.z);
+
 	btCollisionWorld::ClosestRayResultCallback res(btFrom, btTo);
 
 	App->physics->GetWorld()->rayTest(btFrom, btTo, res);
@@ -148,6 +157,14 @@ bool ModulePlayer::CheckContact()
 	}
 	if (res.hasHit()) {
 		ret = true;
+		if (totalRotation == ROTATION_LIMIT)
+		{
+			state = TOP;
+		}
+		else if (totalRotation == 0.0f)
+		{
+			state = BOTTOM;
+		}
 	}
 	return ret;
 }
@@ -239,7 +256,7 @@ update_status ModulePlayer::Update(float dt)
 		}
 	}
 
-	else if (gravityChange != true && state != CHANGING)
+	else if (onFloor == true && state != CHANGING)
 	{
 		//will change "gravityChange != true" for "onFloor==true"
 		if (App->input->GetKey(SDL_SCANCODE_G) == KEY_DOWN)
@@ -256,6 +273,7 @@ update_status ModulePlayer::Update(float dt)
 
 			App->physics->ChangeGravity();
 			startRotation = true;
+			onFloor = false;
 		}
 	}
 
@@ -264,15 +282,17 @@ update_status ModulePlayer::Update(float dt)
 	{
 		acceleration = -MAX_ACCELERATION;
 	}
-	/*
+	
 	//Check car is on floor
 	if (state == CHANGING && gravityChange != true) {
 		onFloor = CheckContact();
 	}
-	*/
+	
+	/*
 	if (gravityChange == true) {
 		gravityChange = vehicle->vehicle->m_wheelInfo[0].m_raycastInfo.m_isInContact;
 	}
+	*/
 	mat4x4 vehicle_matrix;
 	App->player->vehicle->GetTransform(&vehicle_matrix);
 
@@ -336,14 +356,14 @@ update_status ModulePlayer::Update(float dt)
 
 		if (totalRotation == ROTATION_LIMIT) 
 		{
-			startRotation = false;
-			state = TOP;
+			gravityChange=startRotation = false;
+			
 		}
 		else if (totalRotation == ROTATION_LIMIT * 2) 
 		{
 			totalRotation = 0.0f;
-			startRotation = false;
-			state = BOTTOM;
+			gravityChange=startRotation = false;
+			
 		}
 	}
 	return UPDATE_CONTINUE;
