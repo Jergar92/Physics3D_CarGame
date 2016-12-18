@@ -183,6 +183,7 @@ float ModulePlayer::ReadTime()
 
 void ModulePlayer::ResetCar()
 {
+	App->audio->PlayFx(App->scene_intro->lose_song);
 	if (App->physics->GetGravityState() == false)
 	{
 		App->physics->ChangeGravity();

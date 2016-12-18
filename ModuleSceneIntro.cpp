@@ -19,7 +19,9 @@ bool ModuleSceneIntro::Start()
 	LOG("Loading Intro assets");
 	bool ret = true;
 	srand(time(NULL));
-
+	App->audio->PlayMusic("Big_Blue_Theme.ogg");
+	lose_song =App->audio->LoadFx("Defeat_song.wav");
+	victory_song = App->audio->LoadFx("Victory_song.wav");
 	/*CreateFloor(vec3(12, 1, 48), 0, 0, BOTTOM_FLOOR);
 	CreateFloor(vec3(12, 1, 48), 12, 0, BOTTOM_FLOOR);
 	CreateFloor(vec3(12, 1, 48), 24, 0, BOTTOM_FLOOR);
@@ -120,6 +122,7 @@ void ModuleSceneIntro::OnCollision(PhysBody3D* body1, PhysBody3D* body2)
 	{
 		if (App->player->win == false)
 		{
+			App->audio->PlayFx(victory_song);
 			App->player->win = true;
 			App->player->win_timer.Start();
 			App->player->last_time = App->player->ReadTime();
