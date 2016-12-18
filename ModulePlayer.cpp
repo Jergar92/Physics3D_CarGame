@@ -152,8 +152,12 @@ bool ModulePlayer::CheckContact()
 		btFrom = btVector3(position.x, position.y + 1.5, position.z);
 		btTo = btVector3(position.x, position.y - 2, position.z);
 	}
+	else {
+		return ret;
+	}
 	btCollisionWorld::ClosestRayResultCallback res(btFrom, btTo);
 
+	
 	App->physics->GetWorld()->rayTest(btFrom, btTo, res);
 	if (App->physics->isDebug()) {
 		App->physics->GetWorld()->getDebugDrawer()->drawLine(btFrom, btTo, btVector3(1, 1, 1));

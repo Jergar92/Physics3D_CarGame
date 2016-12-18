@@ -40,7 +40,7 @@ bool ModuleSceneIntro::Start()
 	SLIDER,						11
 	EMPTY_FLOOR,				12
 	*/
-	int floors[100] = {
+	int floors[104] = {
 		1,1,1,1,
 		1,1,1,1,
 		0,0,0,0,
@@ -48,15 +48,16 @@ bool ModuleSceneIntro::Start()
 		1,1,1,1,
 		1,1,1,1,
 		12,12,12,11,
-		0,0,0,0,
+		12,12,12,0,
 		0,0,0,0,
 		0,0,0,0,
 		11,12,12,12,
 		1,12,12,12,
 		1,1,1,1,
 		12,1,1,1,
-		0,1,1,1,
-		0,12,7,7,
+		12,1,1,1,
+		12,12,7,7,
+		12,12,0,0,
 		0,0,0,0,
 		3,3,3,3,
 		2,1,2,0,
@@ -67,11 +68,11 @@ bool ModuleSceneIntro::Start()
 		1,1,1,1,
 		1,1,1,1,
 	};
-	for (int j = 0; j < 25; j++) {
+	for (int j = 0; j < 26; j++) {
 		for (int i = 0; i < 4; i++) {
 			FLOOR_STYLE test = static_cast<FLOOR_STYLE>(floors[(4*j)+i]);
 
-			CreateFloor(vec3(20, 1, 48), 20*i, 48*j, test);
+			CreateFloor(vec3(30, 1, 48), 30 *i, 48 *j, test);
 
 		}
 	}
@@ -139,10 +140,12 @@ void ModuleSceneIntro::CreateFloor(vec3 scale, int posX, int posZ, FLOOR_STYLE f
 		{
 		case TOP_FLOOR:
 			s_cube.Size(scale.x, scale.y, scale.z);
+			s_cube.color = Blue;
 			s_cubes.PushBack(s_cube);
 			pb_cube = App->physics->AddBody(s_cube,0);
 			pb_cube->SetPos(posX, TOPFLOR_Y, posZ);
 			pb_cubes.PushBack(pb_cube);
+			
 			break;
 		case MIDDLE_FLOOR_B:
 			s_cube.Size(scale.x, MIDDLE_SCALE, scale.z);
@@ -159,6 +162,8 @@ void ModuleSceneIntro::CreateFloor(vec3 scale, int posX, int posZ, FLOOR_STYLE f
 			pb_cubes.PushBack(pb_cube);
 			break;
 		case BOTTOM_FLOOR:
+			s_cube.color = Green;
+
 			s_cube.Size(scale.x, scale.y, scale.z);
 			s_cubes.PushBack(s_cube);
 			pb_cube = App->physics->AddBody(s_cube, 0);
@@ -168,8 +173,9 @@ void ModuleSceneIntro::CreateFloor(vec3 scale, int posX, int posZ, FLOOR_STYLE f
 		case BOTTOM_TO_MIDDLE:
 
 			s_cube.Size(scale.x, RAMP_SCALE, scale.z+2);
-			s_cube.SetRotation(-15, vec3(1, 0,0));
+			s_cube.color = Green;
 
+			s_cube.SetRotation(-15, vec3(1, 0,0));
 			s_cubes.PushBack(s_cube);
 			pb_cube = App->physics->AddBody(s_cube, 0);
 			pb_cube->SetPos(posX,0, posZ);
@@ -216,6 +222,8 @@ void ModuleSceneIntro::CreateFloor(vec3 scale, int posX, int posZ, FLOOR_STYLE f
 		case BOTTOM_OBSTACLE_FLOOR:
 			//FLOOR
 			s_cube.Size(scale.x, scale.y, scale.z);
+			s_cube.color = Green;
+
 			s_cubes.PushBack(s_cube);
 			pb_cube = App->physics->AddBody(s_cube, 0);
 			pb_cube->SetPos(posX, scale.y*0.5, posZ);
@@ -223,20 +231,25 @@ void ModuleSceneIntro::CreateFloor(vec3 scale, int posX, int posZ, FLOOR_STYLE f
 
 			//OBSTACLE
 			s_cube.Size(scale.x, OBSTACLE_SCALE, 2);
+			s_cube.color = Green;
+
 			s_cubes.PushBack(s_cube);
 			pb_cube = App->physics->AddBody(s_cube, 0);
 			pb_cube->SetPos(posX, 3, posZ + (scale.x *0.5));
 			pb_cubes.PushBack(pb_cube);
 			break;
 		case TOP_OBSTACLE_FLOOR:
+
 			//FLOOR
 			s_cube.Size(scale.x, scale.y, scale.z);
+			s_cube.color = Blue;
 			s_cubes.PushBack(s_cube);
 			pb_cube = App->physics->AddBody(s_cube, 0);
 			pb_cube->SetPos(posX, TOPFLOR_Y, posZ);
 			pb_cubes.PushBack(pb_cube);
 			//OBSTACLE
 			s_cube.Size(scale.x, OBSTACLE_SCALE, 2);
+			s_cube.color = Blue;
 			s_cubes.PushBack(s_cube);
 			pb_cube = App->physics->AddBody(s_cube, 0);
 			pb_cube->SetPos(posX, TOPFLOR_Y-3, posZ + (scale.x*0.5));
@@ -245,12 +258,14 @@ void ModuleSceneIntro::CreateFloor(vec3 scale, int posX, int posZ, FLOOR_STYLE f
 		case SLIDER:
 			//FLOOR
 			s_cube.Size(scale.x, scale.y, scale.z);
+			s_cube.color = Green;
 			s_cubes.PushBack(s_cube);
 			pb_cube = App->physics->AddBody(s_cube, 0);
 			pb_cube->SetPos(posX, scale.y*0.5, posZ);
 			pb_cubes.PushBack(pb_cube);
 			//SLIDER OBSTACLE
 			s_cube.Size(scale.x, OBSTACLE_SCALE, scale.y);
+			s_cube.color = Red;
 			s_cubes.PushBack(s_cube);
 			pb_cube = App->physics->AddBody(s_cube, 100);
 			pb_cube->SetPos(posX, TOPFLOR_Y*0.5, posZ + (scale.x*0.5));
