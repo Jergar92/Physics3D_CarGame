@@ -142,13 +142,16 @@ bool ModulePlayer::CheckContact()
 	mat4x4 vehicle_matrix;
 	App->player->vehicle->GetTransform(&vehicle_matrix);
 	vec3 position = vehicle_matrix.translation();
-	btVector3 btFrom(position.x, position.y, position.z);
+	btVector3 btFrom;
 	btVector3 btTo;
-	if (totalRotation == ROTATION_LIMIT)
-	btTo= btVector3(position.x, position.y+5, position.z);
-	else if (totalRotation == 0.0f)
-	btTo= btVector3(position.x, position.y+(-5), position.z);
-
+	if (totalRotation == ROTATION_LIMIT) {
+		btFrom = btVector3(position.x, position.y - 1.5, position.z);
+		btTo = btVector3(position.x, position.y + 2, position.z);
+	}
+	else if (totalRotation == 0.0f) {
+		btFrom = btVector3(position.x, position.y + 1.5, position.z);
+		btTo = btVector3(position.x, position.y - 2, position.z);
+	}
 	btCollisionWorld::ClosestRayResultCallback res(btFrom, btTo);
 
 	App->physics->GetWorld()->rayTest(btFrom, btTo, res);
@@ -284,7 +287,7 @@ update_status ModulePlayer::Update(float dt)
 	}
 	
 	//Check car is on floor
-	if (state == CHANGING && gravityChange != true) {
+	if (gravityChange != true) {
 		onFloor = CheckContact();
 	}
 	
