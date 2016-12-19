@@ -102,7 +102,7 @@ bool ModulePlayer::Start()
 	car.wheels[3].steering = false;
 
 	vehicle = App->physics->AddVehicle(car);
-	vehicle->SetPos(0, 12, 10);
+	vehicle->SetPos(0, 12, 0);
 
 	mat4x4 matrix;
 	vehicle->GetTransform(&matrix);
@@ -266,7 +266,7 @@ update_status ModulePlayer::Update(float dt)
 		}
 	}
 
-	else if (onFloor == true && state != CHANGING)
+	if (onFloor == true && state != CHANGING)
 	{
 		//will change "gravityChange != true" for "onFloor==true"
 		if (App->input->GetKey(SDL_SCANCODE_G) == KEY_DOWN)

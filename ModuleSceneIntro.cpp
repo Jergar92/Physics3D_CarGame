@@ -45,7 +45,7 @@ bool ModuleSceneIntro::Start()
 	GOAL_RIGHT,					14
 	EMPTY_FLOOR,				15
 	*/
-	int floors[156] = {
+	int floors[306] = {
 		1,1,1,1,
 		1,1,1,1,
 		0,0,0,0,
@@ -78,15 +78,46 @@ bool ModuleSceneIntro::Start()
 		6,15, 15, 5,
 		1,15, 15, 0,
 		1, 15, 15, 0,
-		0, 0, 15, 5,
-		3, 0, 15, 5,
-		0, 3, 15, 9,
-		3, 0, 15,  15,
+		0, 0, 15, 0,
+		12, 0, 15, 0,
+		0, 12, 15, 9,
+		12, 0, 15,  15,
 		15, 15, 0, 15,
 		15, 15, 0, 0,
-		15, 15, 0, 0
+		15, 15, 0, 0,
+		15, 15, 0, 0,
+		15, 15, 0, 0,
+		15, 15, 0, 0,
+		15, 11, 11, 15,
+		15, 12, 12, 15,
+		15, 12, 12, 15,
+		1, 1, 1,1,
+		1, 1, 1,1,
+		0, 0, 0, 0,
+		0, 0, 0, 0,
+		1, 1, 1, 1,
+		1, 1, 1,1,
+		0, 0, 11, 11,
+		5, 5, 10, 10,
+		5, 5, 0, 0,
+		5, 5, 0, 0,
+		7,7, 0, 0,
+		15, 15, 0, 0,
+		15, 15, 0, 0,
+		15, 15, 1,1,
+		1, 1, 1,1,
+		1, 1, 1,1,
+		1, 1, 1,1,
+		1, 1, 1,1,
+		1, 1, 1,1,
+		1, 1, 1,1,
+		1, 1, 1,1,
+		1, 1, 1,1,
+		1, 1, 1,1,
+		1, 1, 1,1,
+		1, 1, 1,1,
 	};
-	for (int j = 0; j < 40; j++) {
+	for (int j = 0; j < 69; j++) {
 		for (int i = 0; i < 4; i++) {
 			FLOOR_STYLE test = static_cast<FLOOR_STYLE>(floors[(4*j)+i]);
 
@@ -98,7 +129,7 @@ bool ModuleSceneIntro::Start()
 
 	s_victory.Size(100, 30, 1);
 	pb_victory = App->physics->AddBody(s_victory, 0);
-	pb_victory->SetPos(30, 0, 2000);
+	pb_victory->SetPos(30, 0, 3100);
 	pb_victory->GetTransform(&s_victory.transform);
 	pb_victory->SetAsSensor(true);
 	pb_victory->collision_listeners.add(this);
