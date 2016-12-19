@@ -42,14 +42,14 @@ bool ModuleSceneIntro::Start()
 	SLIDER,						11
 	EMPTY_FLOOR,				12
 	*/
-	int floors[104] = {
+	int floors[156] = {
 		1,1,1,1,
 		1,1,1,1,
 		0,0,0,0,
 		0,0,0,0,
 		1,1,1,1,
 		1,1,1,1,
-		12,12,12,11,
+		12,12,12,0,
 		12,12,12,0,
 		0,0,0,0,
 		0,0,0,0,
@@ -61,16 +61,29 @@ bool ModuleSceneIntro::Start()
 		12,12,7,7,
 		12,12,0,0,
 		0,0,0,0,
-		3,3,3,3,
+		0,0,0,0,
 		2,1,2,0,
 		1,2,1,0,
 		2,1,2,0,
 		1,2,1,0,
 		1,1,1,1,
 		1,1,1,1,
-		1,1,1,1,
+		1,1,1,11,
+		1,1,1,0,
+		12,6, 12, 5,
+		6,6, 12, 5,
+		6,12, 12, 5,
+		1,12, 12, 0,
+		1, 12, 12, 0,
+		0, 0, 12, 5,
+		3, 0, 12, 5,
+		0, 3, 12, 9,
+		3, 0, 12,  12,
+		12, 12, 0, 12,
+		12, 12, 0, 0,
+		12, 12, 0, 0
 	};
-	for (int j = 0; j < 26; j++) {
+	for (int j = 0; j < 40; j++) {
 		for (int i = 0; i < 4; i++) {
 			FLOOR_STYLE test = static_cast<FLOOR_STYLE>(floors[(4*j)+i]);
 
@@ -79,10 +92,10 @@ bool ModuleSceneIntro::Start()
 		}
 	}
 
-	s_victory.Size(100, 30, 1);
 
+	s_victory.Size(100, 30, 1);
 	pb_victory = App->physics->AddBody(s_victory, 0);
-	pb_victory->SetPos(30, 0, 1000);
+	pb_victory->SetPos(30, 0, 2000);
 	pb_victory->GetTransform(&s_victory.transform);
 	pb_victory->SetAsSensor(true);
 	pb_victory->collision_listeners.add(this);
