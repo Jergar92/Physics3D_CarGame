@@ -183,7 +183,9 @@ float ModulePlayer::ReadTime()
 
 void ModulePlayer::ResetCar()
 {
+	if(win==false)
 	App->audio->PlayFx(App->scene_intro->lose_song);
+
 	if (App->physics->GetGravityState() == false)
 	{
 		App->physics->ChangeGravity();
@@ -330,8 +332,9 @@ update_status ModulePlayer::Update(float dt)
 		sprintf_s(title, "You won! Your time:%.2f - Best time:%.2f", last_time, bestTime);
 		if (win_timer.Read() > 7000)
 		{
-			win = false;
 			ResetCar();
+			win = false;
+
 		}
 	}
 
