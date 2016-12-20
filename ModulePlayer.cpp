@@ -235,7 +235,12 @@ update_status ModulePlayer::Update(float dt)
 
 	if(App->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT && vehicle->GetKmh()<MAX_VELOCITY)
 	{
-		acceleration = MAX_ACCELERATION;
+		if (vehicle->GetKmh()>= 0.0f) {
+			acceleration = MAX_ACCELERATION;
+		}
+		else {
+			brake = BRAKE_POWER;
+		}
 	}
 	else if(vehicle->GetKmh() >= MAX_VELOCITY)
 	{
@@ -290,7 +295,13 @@ update_status ModulePlayer::Update(float dt)
 
 	if(App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_REPEAT)
 	{
-		acceleration = -MAX_ACCELERATION;
+		if (vehicle->GetKmh() < 0.0f) {
+			acceleration = -MAX_ACCELERATION;
+		}
+		else {
+			brake = BRAKE_POWER;
+		}
+		
 	}
 	
 	//Check car is on floor
