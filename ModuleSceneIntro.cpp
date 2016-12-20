@@ -45,7 +45,7 @@ bool ModuleSceneIntro::Start()
 	GOAL_RIGHT,					14
 	EMPTY_FLOOR,				15
 	*/
-	int floors[306] = {
+	int floors[322] = {
 		1,1,1,1,
 		1,1,1,1,
 		0,0,0,0,
@@ -82,7 +82,7 @@ bool ModuleSceneIntro::Start()
 		12, 0, 15, 0,
 		0, 12, 15, 9,
 		12, 0, 15,  15,
-		15, 15, 0, 15,
+		15, 0, 0, 15,
 		15, 15, 0, 0,
 		15, 15, 0, 0,
 		15, 15, 0, 0,
@@ -96,8 +96,8 @@ bool ModuleSceneIntro::Start()
 		0, 0, 0, 0,
 		0, 0, 0, 0,
 		1, 1, 1, 1,
-		1, 1, 1,1,
-		0, 0, 11, 11,
+		1, 1, 11,11,
+		0, 0, 1, 1,
 		5, 5, 10, 10,
 		5, 5, 0, 0,
 		5, 5, 0, 0,
@@ -111,13 +111,17 @@ bool ModuleSceneIntro::Start()
 		1, 1, 1,1,
 		1, 1, 1,1,
 		1, 1, 1,1,
+		14, 1, 1,13,
 		1, 1, 1,1,
 		1, 1, 1,1,
 		1, 1, 1,1,
 		1, 1, 1,1,
 		1, 1, 1,1,
+		1, 1, 1,1,
+		1, 1, 1,1,
+		1, 1, 1,1
 	};
-	for (int j = 0; j < 69; j++) {
+	for (int j = 0; j < 73; j++) {
 		for (int i = 0; i < 4; i++) {
 			FLOOR_STYLE test = static_cast<FLOOR_STYLE>(floors[(4*j)+i]);
 
@@ -127,12 +131,14 @@ bool ModuleSceneIntro::Start()
 	}
 
 
-	s_victory.Size(100, 30, 1);
+	s_victory.Size(200, 300, 1);
 	pb_victory = App->physics->AddBody(s_victory, 0);
-	pb_victory->SetPos(30, 0, 3100);
+	pb_victory->SetPos(40, 0, 3118);
 	pb_victory->GetTransform(&s_victory.transform);
 	pb_victory->SetAsSensor(true);
 	pb_victory->collision_listeners.add(this);
+
+
 
 	App->camera->Move(vec3(1.0f, 1.0f, 0.0f));
 	App->camera->LookAt(vec3(0, 0, 0));
@@ -363,11 +369,11 @@ void ModuleSceneIntro::CreateFloor(vec3 scale, int posX, int posZ, FLOOR_STYLE f
 			//SLIDER OBSTACLE
 
 			//OBSTACLE
-			s_cube.Size(5, OBSTACLE_SCALE, 2);
+			s_cube.Size(10, OBSTACLE_SCALE*4, 10);
 			s_cube.color = Green;
 			s_cubes.PushBack(s_cube);
 			pb_cube = App->physics->AddBody(s_cube, 0);
-			pb_cube->SetPos(posX+ (FLOOR_WIDTH/2), 3, posZ);
+			pb_cube->SetPos(posX+ (FLOOR_WIDTH/2), 15, posZ);
 			pb_cubes.PushBack(pb_cube);
 			break;
 		case GOAL_RIGHT:
@@ -379,11 +385,11 @@ void ModuleSceneIntro::CreateFloor(vec3 scale, int posX, int posZ, FLOOR_STYLE f
 			pb_cube->SetPos(posX, scale.y*0.5, posZ);
 			pb_cubes.PushBack(pb_cube);
 			//OBSTACLE
-			s_cube.Size(5, OBSTACLE_SCALE, 2);
+			s_cube.Size(10, OBSTACLE_SCALE*4, 10);
 			s_cube.color = Green;
 			s_cubes.PushBack(s_cube);
 			pb_cube = App->physics->AddBody(s_cube, 0);
-			pb_cube->SetPos(posX - (FLOOR_WIDTH / 2), 3, posZ);
+			pb_cube->SetPos(posX - (FLOOR_WIDTH / 2), 15, posZ);
 			pb_cubes.PushBack(pb_cube);
 			break;
 		case EMPTY_FLOOR:

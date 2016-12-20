@@ -60,6 +60,7 @@ public:
 	PhysBody3D* pb_victory;
 	Cube s_victory;
 
+
 	int victory_song;
 	int lose_song;
 };
